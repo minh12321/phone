@@ -10,40 +10,48 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/logo.png")} style={styles.logo} />
-      <Text style={styles.title}>nectar</Text>
-      <Text style={styles.title1}>online groceriet</Text>
+      <View style={styles.logoTextContainer}>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>nectar</Text>
+          <Text style={styles.subtitle}>online groceries</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
-    backgroundColor: "#53B175", // Màu nền giống ảnh mẫu
+    flex: 1,
+    backgroundColor: "#53B175",
     justifyContent: "center",
     alignItems: "center",
+  },
+  logoTextContainer: {
+    flexDirection: "row", 
+    alignItems: "center", 
   },
   logo: {
     width: 150,
     height: 150,
     resizeMode: "contain",
   },
-  title:{
-    fontSize: 50,
-    fontWeight: "bold",
-    textAlign: "left",
-    marginBottom: 0,
-    color: "#fff",
-
+  textContainer: {
+    flexDirection: "column", 
   },
-  title1:{
+  title: {
+    fontSize: 60,
+    fontWeight: "bold",
+    color: "white",
+    textTransform: "lowercase",
+  },
+  subtitle: {
     fontSize: 18,
-    textAlign: "left",
-    marginBottom: 5,
-    color: "#fff",
+    color: "white",
+    marginTop: -5,
+  },
 
-  }
 });
 
 export default SplashScreen;
