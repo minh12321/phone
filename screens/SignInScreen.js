@@ -1,9 +1,12 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TextInput,Alert, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
 const SignInScreen = ({ navigation }) => {
+
+
   return (
+    
     <View style={styles.container}>
       <View style={styles.immd}>
         <Image source={require("../assets/rau.png")} /> 
@@ -12,19 +15,16 @@ const SignInScreen = ({ navigation }) => {
       <Text style={styles.title}>Get your groceries</Text>
       <Text style={styles.title}>with nectar</Text>
 
-      {/* Nhập số điện thoại */}
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <Image source={require("../assets/flag.png")} style={styles.flag} />
         <Text style={styles.countryCode}>+84</Text>
         <TextInput placeholder="Enter your number" style={styles.input} keyboardType="phone-pad" />
-      </View>
+      </View> */}
 
-      {/* Nút tiếp tục */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("NumberScreen")}>
-        <Text style={styles.buttonText}>Continue</Text>
+        <Image source={require("../assets/input.png")} style={styles.input} /> 
       </TouchableOpacity>
 
-      {/* Hoặc đăng nhập với Google / Facebook */}
       <Text style={styles.orText}>Or connect with social media</Text>
       <TouchableOpacity style={[styles.socialButton, { backgroundColor: "#1877F2" }]}>
         <FontAwesome name="google" size={20} color="#fff" />
@@ -76,11 +76,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#53B175",
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 20,
+    
+    
   },
   buttonText: {
     color: "#fff",
@@ -111,6 +108,11 @@ const styles = StyleSheet.create({
   immd: {
     marginTop:-150,
     marginBottom:50,
+  },
+  input:{
+    height:70,
+    width:400,
+
   },
 });
 

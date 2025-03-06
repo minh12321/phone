@@ -1,39 +1,49 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput,Alert,Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const VerificationScreen = () => {
   const navigation = useNavigation();
   const [otp, setOtp] = useState("");
 
+  const [isAllowed, setIsAllowed] = useState(true);
+  
+    const handlePress = () => {
+      if (isAllowed) {
+        navigation.navigate("NumberScreen"); 
+      } else {
+        Alert.alert("Thông báo", "Bạn không thể truy cập trang này!"); 
+      }
+    };
+
   return (
     <View style={styles.container}>
-      {/* Tiêu đề */}
-      <Text style={styles.title}>Enter your 4-digit code</Text>
+      <TouchableOpacity onPress={handlePress}>
+      <Image source={require("../assets/iconten (2).png")} style={styles.icon} />
+      </TouchableOpacity>
 
-      {/* Ô nhập OTP */}
+      <Text style={styles.title}>Enter your 4-digit code</Text>
+      <Text style={styles.minititle}>code</Text>
+
       <TextInput
         style={styles.input}
         placeholder="- - - -"
         keyboardType="number-pad"
         maxLength={4}
-        textAlign="center"
         value={otp}
         onChangeText={setOtp}
       />
 
-      {/* Nút gửi lại mã */}
       <TouchableOpacity style={styles.resendButton}>
         <Text style={styles.resendText}>Resend Code</Text>
       </TouchableOpacity>
 
-      {/* Nút tiếp tục */}
       <TouchableOpacity
-        style={[styles.button, otp.length === 4 ? styles.activeButton : styles.disabledButton]}
+        style={[styles.button]}
         onPress={() => navigation.navigate("HomeScreen")}
-        disabled={otp.length !== 4} // Kiểm tra nhập đủ 4 số
+        disabled={otp.length !== 4} 
       >
-        <Text style={styles.buttonText}>→</Text>
+        <Image source={require("../assets/nextgreen.png")} style={styles.icon1} />
       </TouchableOpacity>
     </View>
   );
@@ -44,35 +54,33 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
-    justifyContent: "center",
+    justifyContent: "top",
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 20,
   },
   input: {
     fontSize: 24,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     borderBottomWidth: 2,
+    width:400,
     borderBottomColor: "#ccc",
-    marginHorizontal: 50,
+    alignSelf: "flex-start",
     padding: 10,
   },
   resendButton: {
-    marginTop: 10,
-    alignSelf: "center",
+    marginTop: 90,
+    alignSelf: "bottom",
   },
   resendText: {
     color: "#53B175",
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#53B175",
-    padding: 15,
-    borderRadius: 50,
     alignItems: "center",
     alignSelf: "flex-end",
     marginTop: 20,
@@ -87,6 +95,15 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  icon: {
+    marginTop:30,
+    marginBottom:30,
+
+  },
+  icon1: {
+    height:50,
+    width:50,
+  }
 });
 
 export default VerificationScreen;

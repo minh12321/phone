@@ -1,20 +1,33 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { Alert,View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const NumberScreen = () => {
   const navigation = useNavigation();
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isAllowed, setIsAllowed] = useState(true);
+
+  const handlePress = () => {
+    if (isAllowed) {
+      navigation.navigate("SignIn");
+    } else {
+      Alert.alert("Thông báo", "Bạn không thể truy cập trang này!"); 
+    }
+  };
 
   return (
     <View style={styles.container}>
+
+      <TouchableOpacity onPress={handlePress}>
+      <Image source={require("../assets/iconten (2).png")} style={styles.icon} />
+      </TouchableOpacity>
       {/* Tiêu đề */}
       <Text style={styles.title}>Enter your mobile number</Text>
 
       {/* Nhập số điện thoại */}
       <View style={styles.inputContainer}>
         <Image source={require("../assets/flag.png")} style={styles.flag} />
-        <Text style={styles.countryCode}>+880</Text>
+        <Text style={styles.countryCode}>+84</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter your number"
@@ -30,7 +43,7 @@ const NumberScreen = () => {
         onPress={() => navigation.navigate("VerificationScreen")}
         disabled={phoneNumber.length < 10} // Kiểm tra số điện thoại hợp lệ
       >
-        <Text style={styles.buttonText}>→</Text>
+        <Image source={require("../assets/nextgreen.png")} style={styles.icon1} />
       </TouchableOpacity>
     </View>
   );
@@ -41,13 +54,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
-    justifyContent: "center",
+    justifyContent: "top",
   },
   title: {
-    fontSize: 22,
+    fontSize: 30,
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
+    textAlign: "left",
+    marginBottom: 30,
   },
   inputContainer: {
     flexDirection: "row",
@@ -73,9 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#53B175",
-    padding: 15,
-    borderRadius: 50,
+    
     alignItems: "center",
     alignSelf: "flex-end",
   },
@@ -83,6 +94,15 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
   },
+  icon: {
+    marginTop:30,
+    marginBottom:30,
+
+  },
+  icon1: {
+    height:50,
+    width:50,
+  }
 });
 
 export default NumberScreen;
