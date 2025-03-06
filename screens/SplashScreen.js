@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet,Text } from "react-native";
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -11,13 +11,15 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
+      <Text style={styles.title}>nectar</Text>
+      <Text style={styles.title1}>online groceriet</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     backgroundColor: "#53B175", // Màu nền giống ảnh mẫu
     justifyContent: "center",
     alignItems: "center",
@@ -27,6 +29,21 @@ const styles = StyleSheet.create({
     height: 150,
     resizeMode: "contain",
   },
+  title:{
+    fontSize: 50,
+    fontWeight: "bold",
+    textAlign: "left",
+    marginBottom: 0,
+    color: "#fff",
+
+  },
+  title1:{
+    fontSize: 18,
+    textAlign: "left",
+    marginBottom: 5,
+    color: "#fff",
+
+  }
 });
 
 export default SplashScreen;

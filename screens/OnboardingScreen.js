@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
+import { View,Image, Text, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
 
 const OnboardingScreen = ({ navigation }) => {
   return (
     <ImageBackground source={require("../assets/onboarding.png")} style={styles.background}>
       <View style={styles.overlay}>
-        <Text style={styles.title}>Welcome to our store</Text>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <Text style={styles.title}>Welcome</Text>
+        <Text style={styles.title}>to our store</Text>
         <Text style={styles.subtitle}>Get your groceries in as fast as one hour</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("SignIn")}>
           <Text style={styles.buttonText}>Get Started</Text>
@@ -25,13 +27,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 26,
-    fontWeight: "bold",
+    fontSize: 45,
+    fontWeight: "bold" ,
     color: "#fff",
     textAlign: "center",
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#fff",
     textAlign: "center",
     marginVertical: 10,
@@ -40,13 +42,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#53B175",
     paddingVertical: 12,
     paddingHorizontal: 30,
-    borderRadius: 8,
+    borderRadius: 12,
+    paddingLeft:150,
+    paddingRight:150,
+    paddingTop:20,
+    paddingBottom:20,
     marginTop: 20,
+    marginBottom:70,
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: "contain",
   },
 });
 
