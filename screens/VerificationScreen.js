@@ -40,7 +40,7 @@ const VerificationScreen = () => {
 
       <TouchableOpacity
         style={[styles.button]}
-        onPress={() => navigation.navigate("HomeScreen")}
+        onPress={() => navigation.navigate("Location")}
         disabled={otp.length !== 4} 
       >
         <Image source={require("../assets/nextgreen.png")} style={styles.icon1} />
