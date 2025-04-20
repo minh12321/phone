@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,71 +7,175 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  FlatList,
 } from 'react-native';
 import { Ionicons, Feather, AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import ProductCard from '../components/ProductCard';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredProducts = ProductCard.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <View style={styles.container}>
       {/* Header Location + Search */}
-      <Image source ={require('../assets/carrot.png')} style = {styles.image3}/>
+      <Image source={require('../assets/carrot.png')} style={styles.image3} />
 
       <View style={styles.header}>
-      <Text style={styles.locationText}><Ionicons name="location-sharp" size={20} color="#4CAF50" />Dhaka, Banassre</Text>
+        <Text style={styles.locationText}>
+          <Ionicons name="location-sharp" size={20} color="#4CAF50" />
+          Dhaka, Banassre
+        </Text>
       </View>
 
       <View style={styles.searchBar}>
-        <TextInput style={styles.searchInput} placeholder="Search Store" />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search Store"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
         <Feather name="search" size={20} color="gray" />
       </View>
 
-      <ScrollView>
-        {/* Banner */}
-        <Image style={styles.banner} source={require('../assets/main/home/banner.png')} />
+      {/* Nếu có nhập searchQuery thì chỉ show kết quả tìm kiếm */}
+      {searchQuery.length > 0 ? (
+        filteredProducts.length > 0 ? (
+          <FlatList
+            data={filteredProducts}
+            numColumns={2}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: 16,
+              paddingTop: 16,
+            }}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.card1}
+                onPress={() =>
+                  navigation.navigate('ProductDetail', { product: item })
+                }
+              >
+                <Image source={item.image} style={styles.image1} />
+                <View style={styles.a}>
+                  <Text style={styles.name1}>{item.name}</Text>
+                  <Text style={styles.price1}>
+                    ${item.price.toFixed(2)}
+                  </Text>
+                </View>
+                <View style={styles.b1}>
+                  <TouchableOpacity
+                    style={styles.addButton1}
+                    onPress={() =>
+                      navigation.navigate('ProductDetail', { product: item })
+                    }
+                  >
+                    <Text style={styles.addText1}>+</Text>
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View style={{ alignItems: 'center', marginTop: 40 }}>
+            <Text>Không tìm thấy sản phẩm nào</Text>
+          </View>
+        )
+      ) : (
+        /* Ngược lại (chưa nhập tìm kiếm), show toàn bộ nội dung mặc định */
+        <ScrollView>
+          <Image
+            style={styles.banner}
+            source={require('../assets/main/home/banner.png')}
+          />
 
-        {/* Exclusive Offer */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Exclusive Offer</Text>
-          <Text style={styles.seeAll}>See all</Text>
-        </View>
+          {/* Exclusive Offer */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Exclusive Offer</Text>
+            <Text style={styles.seeAll}>See all</Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalList}
+          >
+            {renderProduct(
+              'Organic Bananas',
+              '$4.99',
+              require('../assets/main/home/tao.png')
+            )}
+            {renderProduct(
+              'Red Apple',
+              '$4.99',
+              require('../assets/main/home/tao.png')
+            )}
+          </ScrollView>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalList}>
-          {renderProduct('Organic Bananas', '$4.99', require('../assets/main/home/tao.png'))}
-          {renderProduct('Red Apple', '$4.99', require('../assets/main/home/tao.png'))}
-          
+          {/* Best Selling */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Best Selling</Text>
+            <Text style={styles.seeAll}>See all</Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalList}
+          >
+            {renderProduct(
+              'Tomato',
+              '$4.99',
+              require('../assets/main/home/ot.png')
+            )}
+            {renderProduct(
+              'Ginger',
+              '$4.99',
+              require('../assets/main/home/gung.png')
+            )}
+          </ScrollView>
+
+          {/* Groceries */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Groceries</Text>
+            <Text style={styles.seeAll}>See all</Text>
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryList}
+          >
+            {renderProduct1(
+              'Dal Masoor',
+              require('../assets/main/home/dal.png')
+            )}
+            {renderProduct1(
+              'Rice Premium',
+              require('../assets/main/home/rice.png')
+            )}
+          </ScrollView>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.horizontalList}
+          >
+            {renderProduct(
+              'Beef Bone',
+              '$4.99',
+              require('../assets/main/home/lon.png')
+            )}
+            {renderProduct(
+              'Broiler Chicken',
+              '$4.99',
+              require('../assets/main/home/ga.png')
+            )}
+          </ScrollView>
         </ScrollView>
-
-        {/* Best Selling */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Best Selling</Text>
-          <Text style={styles.seeAll}>See all</Text>
-        </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalList}>
-          {renderProduct('Tomato', '$4.99', require('../assets/main/home/ot.png'))}
-          {renderProduct('Ginger', '$4.99', require('../assets/main/home/gung.png'))}
-        </ScrollView>
-
-        {/* Groceries */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Groceries</Text>
-          <Text style={styles.seeAll}>See all</Text>
-          
-        </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryList}>
-          {renderProduct1('Dal Masoor', require('../assets/main/home/dal.png'))}
-          {renderProduct1('Rice Premium', require('../assets/main/home/rice.png'))}
-        </ScrollView>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalList}>
-          {renderProduct('Beef Bone', '$4.99', require('../assets/main/home/lon.png'))}
-          {renderProduct('Broiler Chicken', '$4.99', require('../assets/main/home/ga.png'))}
-        </ScrollView>
-      </ScrollView>
-
-      {/* Bottom Navigation */}
-
+      )}
     </View>
   );
 }
@@ -298,5 +402,45 @@ const styles = StyleSheet.create({
   c:{
     top:-30,
     alignItems: 'flex-end',
-  }
+  },
+  // -----------------------------
+  container1: { padding: 16, backgroundColor: '#fff', flex: 1,marginTop:30, },
+  title1: { fontSize: 24, fontWeight: 'bold', marginBottom: 40 },
+  card1: {
+    backgroundColor: '#f4f4f4',
+    flex: 1,
+    margin: 8,
+    padding: 12,
+    borderRadius: 10,
+  },
+  image1: { width: 150, height: 100, margin: 28,left:-18,resizeMode: "contain", },
+  name1: { fontSize: 14 },
+  price1: { color: 'green', marginTop: 4 },
+  searchInput1: {
+    flex: 1,
+    height: 40,
+  },
+  a1:{
+    alignItems: 'left',
+    left:0,
+    top:30
+  },
+  addButton1: {
+    marginTop: 8,
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+    width: 35,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addText1: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize:30,
+  },
+  b1:{
+    right:-130,
+    
+  },
 });
