@@ -18,6 +18,8 @@ import AccountScreen from "./screens/AccountScreen";
 import ExploreScreen from "./screens/ExploreScreen";
 import ProductDetailScreen from "./screens/ProductDetailScreen";
 import CategoryScreen from "./screens/CategoryScreen";
+import FavoriteScreen from "./screens/FavoriteScreen";
+import { CartProvider } from './screens/CartContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -60,7 +62,7 @@ function MainTabs() {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Explore" component={ExploreStack} />
       <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Favourite" component={CartScreen} />
+      <Tab.Screen name="Favourite" component={FavoriteScreen} />
       <Tab.Screen name="Account" component={AccountScreen} />
     </Tab.Navigator>
   );
@@ -68,8 +70,9 @@ function MainTabs() {
 
 export default function App() {
   return (
+    <CartProvider>
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Splash">
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="MainTabs">
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
@@ -82,6 +85,6 @@ export default function App() {
         {/* Đây là Tab chính sau khi đăng nhập xong */}
         <Stack.Screen name="MainTabs" component={MainTabs} />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer></CartProvider>
   );
 }

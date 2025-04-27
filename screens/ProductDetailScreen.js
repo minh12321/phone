@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useContext } from 'react';
+import { CartContext } from './CartContext';
 
 export default function ProductDetailScreen({ route }) {
   const { product } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const { addToCart, addToFavorite } = useContext(CartContext);
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
+
+  const handleAddToFavorite = () => {
+    addToFavorite(product);
+  };
+  
 
   return (
     <View style={styles.container}>
       <Image source={product.image} style={styles.image} />
       <Text style={styles.title}>{product.name}</Text>
+      <TouchableOpacity style={styles.tim} onPress={handleAddToFavorite}>
+        <Text>❤️</Text>
+      </TouchableOpacity>
       <View style={styles.counter}>
         <TouchableOpacity onPress={() => setQuantity(q => Math.max(1, q - 1))}>
           <Text style={styles.counterButton}>-</Text>
@@ -24,9 +39,11 @@ export default function ProductDetailScreen({ route }) {
       <Text style={styles.detail1}>{product.description}</Text>
       <Text style={styles.detail}>Nutritons                                                              100g</Text>
       <Image source ={require('../assets/main/star.png')}  style={styles.image1} />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button } onPress={handleAddToCart}>
         <Text style={styles.buttonText}>Add To Basket</Text>
       </TouchableOpacity>
+
+      
     </View>
   );
 }
@@ -53,4 +70,5 @@ const styles = StyleSheet.create({
     marginTop:110,
     left:300
   },
+  tim:{left:370,fontSize:80,height:40,top:-30,marginBottom:-30 }
 });
