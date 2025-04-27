@@ -10,7 +10,7 @@ export default function CartScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Find Products</Text>
+      <Text style={styles.title}>Cart</Text>
     <FlatList
       data={cartItems}
       renderItem={({ item }) => (
